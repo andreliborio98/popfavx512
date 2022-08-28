@@ -1,0 +1,5 @@
+#!/usr/bin/make
+
+CPPFLAGS = -DVECT_AVX
+CFLAGS   = -O3 -Wall -lm -mavx2 -mavx512f -fopenmp -mtune=native
+LDFLAGS  =
