@@ -1,0 +1,5 @@
+#!/usr/bin/make
+
+CPPFLAGS =
+CFLAGS   = -O3 -Wall -fopenmp
+LDFLAGS  =

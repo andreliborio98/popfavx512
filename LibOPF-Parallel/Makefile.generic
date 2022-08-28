@@ -1,0 +1,35 @@
+#!/usr/bin/make
+
+include ./makefile.config/Makefile.$(BUILD)
+include ./makefile.config/Makefile.common
+
+all: dirs $(libOPF) $(BINS)
+
+dirs:
+	test -d $(LIB_DIR)       || mkdir -p $(LIB_DIR)
+	test -d $(OPF_OBJ_DIR)   || mkdir -p $(OPF_OBJ_DIR)
+	test -d $(OPF_BIN_DIR)   || mkdir -p $(OPF_BIN_DIR)
+	test -d $(UTILS_OBJ_DIR) || mkdir -p $(UTILS_OBJ_DIR)
+	test -d $(TOOLS_OBJ_DIR) || mkdir -p $(TOOLS_OBJ_DIR)
+	test -d $(TOOLS_BIN_DIR) || mkdir -p $(TOOLS_BIN_DIR)
+
+$(OPF_OBJ_DIR)/%.o:	$(OPF_SRC_DIR)/%.c
+	$(CC) $(CFLAGS) $(CPPFLAGS) -c $^ -o $@
+
+$(TOOLS_OBJ_DIR)/%.o:	$(TOOLS_SRC_DIR)/%.c
+	$(CC) $(CFLAGS) $(CPPFLAGS) -c $^ -o $@
+
+$(UTILS_OBJ_DIR)/%.o:	$(UTILS_SRC_DIR)/%.c
+	$(CC) $(CFLAGS) $(CPPFLAGS) -c $^ -o $@
+
+$(OPF_BIN_DIR)/%$(SUFFIX).x:	$(OPF_OBJ_DIR)/%.o
+	$(CC) $(CFLAGS) $^ -o $@ $(LDFLAGS)
+
+$(TOOLS_BIN_DIR)/%.x:	$(TOOLS_OBJ_DIR)/%.o
+	$(CC) $(CFLAGS) $^ -o $@ $(LDFLAGS)
+
+$(libOPF): $(OPF) $(utils_objs)
+	$(AR) csr $@ $^
+
+clean:
+	$(RM) $(OBJS) $(OPF) $(BINS) $(libOPF)

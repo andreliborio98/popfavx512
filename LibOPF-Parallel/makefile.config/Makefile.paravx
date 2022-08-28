@@ -1,0 +1,5 @@
+#!/usr/bin/make
+
+CPPFLAGS = -DVECT_AVX
+CFLAGS   = -O3 -Wall -mavx -fopenmp
+LDFLAGS  =

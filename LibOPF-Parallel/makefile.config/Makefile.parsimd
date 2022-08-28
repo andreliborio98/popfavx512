@@ -1,0 +1,5 @@
+#!/usr/bin/make
+
+CPPFLAGS = -DVECT_OMP_SIMD
+CFLAGS   = -O3 -Wall -mavx -fopenmp
+LDFLAGS  =

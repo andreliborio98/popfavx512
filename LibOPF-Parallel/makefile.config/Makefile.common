@@ -1,0 +1,35 @@
+
+CPPFLAGS += -I./include -I./include/util -DPARALLEL
+LDFLAGS  += -L./lib/$(BUILD) -lOPF -lm
+
+OPF_SRC_DIR = ./src
+OPF_OBJ_DIR = ./obj/$(BUILD)
+OPF_BIN_DIR = ./bin
+
+UTILS_SRC_DIR = ./src/util
+UTILS_OBJ_DIR = ./obj/$(BUILD)/util
+
+TOOLS_SRC_DIR = ./tools/src
+TOOLS_OBJ_DIR = ./obj/tools
+TOOLS_BIN_DIR = ./bin/tools
+
+LIB_DIR = ./lib/$(BUILD)
+
+SUFFIX=-$(BUILD)
+
+opf_srcs = $(wildcard $(OPF_SRC_DIR)/opf_*.c)
+opf_objs = $(patsubst $(OPF_SRC_DIR)/%.c, $(OPF_OBJ_DIR)/%.o, $(opf_srcs))
+opf_bins = $(patsubst $(OPF_SRC_DIR)/%.c, $(OPF_BIN_DIR)/%$(SUFFIX).x, $(opf_srcs))
+
+tools_srcs = $(wildcard $(TOOLS_SRC_DIR)/*.c)
+tools_bins = $(patsubst $(TOOLS_SRC_DIR)/%.c, $(TOOLS_OBJ_DIR)/%.o, $(tools_srcs))
+tools_bins = $(patsubst $(TOOLS_SRC_DIR)/%.c, $(TOOLS_BIN_DIR)/%.x, $(tools_srcs))
+
+utils_srcs = $(wildcard $(UTILS_SRC_DIR)/*.c)
+utils_objs = $(patsubst $(UTILS_SRC_DIR)/%.c, $(UTILS_OBJ_DIR)/%.o, $(utils_srcs))
+
+OPF    = $(OPF_OBJ_DIR)/OPF.o
+libOPF = $(LIB_DIR)/libOPF.a
+
+OBJS = $(utils_objs) $(tools_objs) $(opf_objs)
+BINS = $(opf_bins) $(tools_bins)
